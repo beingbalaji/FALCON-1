@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Local data
+database/
+*.db
+training/datasets/liar/*.tsv
+training/datasets/liar/*.csv
+
+# Evaluation outputs
+evaluation/falcon_eval_results.csv
+evaluation/falcon_confusion_matrix.csv
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

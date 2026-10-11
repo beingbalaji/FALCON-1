@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FALCON</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <main class="shell">
+    <nav>
+      <div class="brand">FALCON</div>
+      <span class="tag">Evidence-based claim verification</span>
+    </nav>
+
+    <section class="hero">
+      <span class="eyebrow">Automated claim verification</span>
+      <h1>Enter a claim. FALCON finds the evidence.</h1>
+      <p>
+        FALCON automatically retrieves relevant passages, ranks them,
+        checks each passage with NLI, and aggregates the evidence into a
+        final verdict.
+      </p>
+    </section>
+
+    <section class="card">
+      {% if error %}
+      <div class="error">{{ error }}</div>
+      {% endif %}
+
+      <form action="{{ url_for('analyze') }}" method="post">
+        <label for="claim">Claim</label>
+        <textarea id="claim" name="claim" rows="5"
+          placeholder="Example: The Eiffel Tower is located in Paris."
+          required></textarea>
+
+        <label for="source_url">Optional source URL</label>
+        <input id="source_url" name="source_url" type="url"
+          placeholder="https://example.com/article">
+
+        <button type="submit">Automatically verify claim</button>
+      </form>
+    </section>
+
+    <section class="notice">
+      <strong>Current retrieval scope:</strong>
+      FALCON searches Wikipedia automatically and can also inspect one
+      source URL you provide. It does not yet perform unrestricted web search.
+    </section>
+  </main>
+</body>
+</html>

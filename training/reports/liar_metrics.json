@@ -1,0 +1,32 @@
+{
+  "dataset": "LIAR",
+  "task": "6-class truthfulness classification",
+  "labels": [
+    "pants-fire",
+    "false",
+    "barely-true",
+    "half-true",
+    "mostly-true",
+    "true"
+  ],
+  "rows": {
+    "train": 10258,
+    "valid": 1284,
+    "test": 1283,
+    "final_training": 11542
+  },
+  "validation": {
+    "accuracy": 0.235202,
+    "macro_precision": 0.234613,
+    "macro_recall": 0.242232,
+    "macro_f1": 0.23655,
+    "weighted_f1": 0.235104
+  },
+  "test": {
+    "accuracy": 0.262666,
+    "macro_precision": 0.257179,
+    "macro_recall": 0.265899,
+    "macro_f1": 0.257956,
+    "weighted_f1": 0.262934
+  }
+}

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FALCON Result</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <main class="shell">
+    <nav>
+      <a class="brand" href="{{ url_for('index') }}">FALCON</a>
+      <span class="tag">Result</span>
+    </nav>
+
+    <section class="verdict card">
+      <span class="eyebrow">Final evidence verdict</span>
+      <h1>{{ verification.final.final_label }}</h1>
+      <p class="score">{{ "%.1f"|format(verification.final.confidence * 100) }}%</p>
+
+      <div class="prob-list">
+        <div class="prob-row">
+          <span>SUPPORTED</span>
+          <strong>{{ "%.1f"|format(verification.final.support_score * 100) }}%</strong>
+        </div>
+        <div class="prob-row">
+          <span>REFUTED</span>
+          <strong>{{ "%.1f"|format(verification.final.refute_score * 100) }}%</strong>
+        </div>
+        <div class="prob-row">
+          <span>NOT ENOUGH INFO</span>
+          <strong>{{ "%.1f"|format(verification.final.nei_score * 100) }}%</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Claim</h2>
+      <p class="quoted">{{ claim }}</p>
+
+      <p class="muted">
+        Retrieved {{ verification.retrieval_count }} candidate passages;
+        evaluated {{ verification.evidence|length }} top passages.
+      </p>
+    </section>
+
+    <section class="card">
+      <span class="eyebrow">Evidence used</span>
+      <h2>Top retrieved passages</h2>
+
+      {% if verification.evidence %}
+        <div class="evidence-list">
+        {% for item in verification.evidence %}
+          <article class="evidence-item">
+            <div class="evidence-head">
+              <strong>{{ item.label }}</strong>
+              <span>{{ "%.1f"|format(item.confidence * 100) }}%</span>
+            </div>
+
+            <p>{{ item.passage }}</p>
+
+            <div class="meta">
+              <span>{{ item.title }}</span>
+              <span>Retrieval {{ "%.3f"|format(item.retrieval_score) }}</span>
+            </div>
+
+            <a href="{{ item.url }}" target="_blank" rel="noopener noreferrer">
+              Open source
+            </a>
+          </article>
+        {% endfor %}
+        </div>
+      {% else %}
+        <p>No usable evidence passages were found.</p>
+      {% endif %}
+    </section>
+
+    <section class="card">
+      <span class="eyebrow">Secondary signal</span>
+      <h2>LIAR linguistic classification</h2>
+
+      {% if linguistic %}
+        <p><strong>{{ linguistic.label|replace('-', ' ')|upper }}</strong></p>
+        <p>{{ "%.1f"|format(linguistic.confidence * 100) }}% confidence</p>
+        <p class="muted">{{ model_version }}</p>
+      {% else %}
+        <p>Unavailable{% if linguistic_error %}: {{ linguistic_error }}{% endif %}</p>
+      {% endif %}
+
+      <div class="notice">
+        The linguistic classifier is auxiliary. The main verdict comes from
+        retrieved evidence plus NLI verification.
+      </div>
+    </section>
+
+    <a class="button-link" href="{{ url_for('index') }}">Verify another claim</a>
+  </main>
+</body>
+</html>
